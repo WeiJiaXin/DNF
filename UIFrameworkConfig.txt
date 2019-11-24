@@ -1,0 +1,1 @@
+{"cs_name":"NewUIView","content_type":0,"screenSize":{"x":1080.0,"y":1920.0},"cs_path":"Scripts/View","prefab_res_path":"Resources/View"}
