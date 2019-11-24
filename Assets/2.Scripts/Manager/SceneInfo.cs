@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using JetBrains.Annotations;
 using UnityEngine;
 
 namespace Lowy.Scene
@@ -12,15 +13,21 @@ namespace Lowy.Scene
         #region Static Data
 
         /// <summary>
-        /// 场景图,里面为作为静态信息
+        /// 场景图,里面为作为静态信息,如果为null则表示没有创建地图<see cref="ToMap"/>
         /// </summary>
-        private static Dictionary<string, SceneInfo> Map;
+        [CanBeNull] private static Dictionary<string, SceneInfo> _map;
 
         /// <summary>
         /// 当前预加载或加载后的场景,不可缓存此字典
         /// <para>使用时需要判断<see cref="nextScenes"/>是否存在<see cref="AllScene"/>中,不存在则表示是一条无效的边</para>
         /// </summary>
-        public static Dictionary<string, SceneInfo> AllScene = new Dictionary<string, SceneInfo>();
+        [NotNull]
+        public static Dictionary<string, SceneInfo> AllScene { get; private set; }
+
+        static SceneInfo()
+        {
+            AllScene = new Dictionary<string, SceneInfo>();
+        }
 
         /// <summary>
         /// 获取或创建一个场景,与Map中同名不同对象
@@ -30,7 +37,7 @@ namespace Lowy.Scene
         /// <exception cref="ArgumentNullException">生成场景图时,没有此场景的数据,或是没有调用<see cref="SceneInfo.ToMap"/></exception>
         public static SceneInfo GetOrCreate(string name)
         {
-            if (!Map.ContainsKey(name))
+            if (_map != null && !_map.ContainsKey(name))
                 throw new ArgumentNullException(message: "Map中不存在此场景信息", null);
             if (!AllScene.ContainsKey(name))
                 AllScene[name] = new SceneInfo(name);
@@ -42,7 +49,7 @@ namespace Lowy.Scene
         /// </summary>
         public static void ToMap()
         {
-            Map = AllScene;
+            _map = AllScene;
             AllScene = new Dictionary<string, SceneInfo>();
         }
 
@@ -53,7 +60,7 @@ namespace Lowy.Scene
         /// <summary>
         /// 场景名
         /// </summary>
-        public string name;
+        public readonly string name;
 
         /// <summary>
         /// 最终加载出的预制物,Instantiate后的物体,不要主动操作
@@ -61,7 +68,7 @@ namespace Lowy.Scene
         public GameObject prefab;
 
         /// <summary>
-        /// 是否已经预加载,为<see cref="true"/>只是标记为预加载,如果<see cref="prefab"/>为null,则正在加载
+        /// 是否已经预加载,为<cref>true</cref>只是标记为预加载,如果<see cref="prefab"/>为null,则正在加载
         /// </summary>
         public bool preLoad;
 
@@ -74,22 +81,23 @@ namespace Lowy.Scene
         /// 根据名字构造
         /// </summary>
         /// <param name="name"></param>
-        public SceneInfo(string name)
+        private SceneInfo(string name)
         {
             this.name = name;
             nextScenes = new List<SceneInfo>();
-            HandleEdge();
+            if (_map != null)
+                HandleEdge();
         }
 
         /// <summary>
         /// 从Map中读取连接的场景
         /// </summary>
         /// <exception cref="ArgumentNullException"></exception>
-        public void HandleEdge()
+        private void HandleEdge()
         {
-            if (Map.ContainsKey(name))
+            if (_map.ContainsKey(name))
                 throw new ArgumentNullException(message: "Map中不存在此场景信息", null);
-            SceneInfo mapInfo = Map[name];
+            SceneInfo mapInfo = _map[name];
             nextScenes.AddRange(mapInfo.nextScenes);
         }
 

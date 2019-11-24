@@ -299,9 +299,9 @@ namespace Lowy.Scene
 
             //避免脚本中update有空指针
             o.SetActive(false);
-            for (int i = 0; i < childs.Count; i++)
+            foreach (var t in childs)
             {
-                Destroy(childs[i]);
+                Destroy(t);
                 yield return 0;
             }
 
