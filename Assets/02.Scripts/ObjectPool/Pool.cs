@@ -36,6 +36,7 @@ public class Pool
         }
 
         t.transform.localPosition = Vector3.zero;
+        t.SetActive(true);
         work.Add(t);
         return t;
     }

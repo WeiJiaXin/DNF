@@ -39,11 +39,22 @@ public class Bullet : MonoForDebug, IPoolObject
         if (bulletTrigger.CompareTag(tag))
             return;
         bulletTrigger.role.GetHit(_data);
+        Recycle();
     }
 
     public void Recycle()
     {
         _rig.velocity = Vector3.zero;
         PoolManager.GetPool<Bullet>(Name).Push(this);
+    }
+
+    public void Init(bool isPlayer)
+    {
+        gameObject.tag = isPlayer ? "Player" : "Monster";
+        var tran = transform;
+        tran.localPosition=Vector3.zero;
+        tran.localEulerAngles=Vector3.zero;
+        tran.localScale=Vector3.one;
+        tran.SetParent(null,true);
     }
 }

@@ -16,12 +16,8 @@ public class ShooterRole : RoleBase
     {
         base.Attack();
         var b = _bulletPool.Pop(bulletPort);
-        b.transform.localPosition=Vector3.zero;
-        b.transform.localEulerAngles=Vector3.zero;
-        b.transform.localScale=Vector3.one;
-        b.transform.SetParent(null,true);
-        var v = Enemy.transform.position - bulletPort.position;
-        v.Normalize();
+        b.Init(true);
+        var v = (Enemy.transform.position - bulletPort.position).normalized;
         b.Launch(new BulletData {atk = _data.atk, useGravity = false, velocity = v});
     }
 }
