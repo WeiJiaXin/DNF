@@ -1,0 +1,15 @@
+{
+    "name": "EventModuleEditor",
+    "references": [
+        "GUID:d73b060a98232497786cf10ed0f198ce"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

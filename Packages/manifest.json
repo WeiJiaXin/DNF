@@ -1,21 +1,12 @@
 {
   "dependencies": {
-    "com.lowy.binder": "https://github.com/WeiJiaXin/Lowy.Bind.git",
-    "com.lowy.csvhandle": "https://github.com/WeiJiaXin/CsvTableHandle.git",
-    "com.lowy.event": "https://github.com/WeiJiaXin/EventModule.git",
-    "com.lowy.uiframework": "https://github.com/WeiJiaXin/UIFramework.git",
     "com.unity.2d.sprite": "1.0.0",
-    "com.unity.2d.tilemap": "1.0.0",
-    "com.unity.addressables": "1.1.10",
-    "com.unity.cinemachine": "2.3.4",
     "com.unity.collab-proxy": "1.2.16",
-    "com.unity.ext.nunit": "1.0.0",
-    "com.unity.ide.rider": "1.1.0",
-    "com.unity.ide.vscode": "1.0.7",
-    "com.unity.render-pipelines.lightweight": "6.9.2",
-    "com.unity.test-framework": "1.0.18",
+    "com.unity.ide.rider": "1.1.4",
+    "com.unity.ide.vscode": "1.1.4",
+    "com.unity.test-framework": "1.1.11",
     "com.unity.textmeshpro": "2.0.1",
-    "com.unity.timeline": "1.1.0",
+    "com.unity.timeline": "1.2.10",
     "com.unity.ugui": "1.0.0",
     "com.unity.modules.ai": "1.0.0",
     "com.unity.modules.androidjni": "1.0.0",
@@ -48,23 +39,5 @@
     "com.unity.modules.vr": "1.0.0",
     "com.unity.modules.wind": "1.0.0",
     "com.unity.modules.xr": "1.0.0"
-  },
-  "lock": {
-    "com.lowy.binder": {
-      "hash": "86e1bf25b8c5bb52b2e42b68917f08501ac89b3d",
-      "revision": "HEAD"
-    },
-    "com.lowy.csvhandle": {
-      "hash": "0e97f4e99f647a16f1282dc0dc3cebbb9eda5180",
-      "revision": "HEAD"
-    },
-    "com.lowy.event": {
-      "hash": "1db5a07fe9db386c71bd4b316668005c7f768eae",
-      "revision": "HEAD"
-    },
-    "com.lowy.uiframework": {
-      "hash": "b661a3aab4e7f9f3002f4f6f88e17fe196294533",
-      "revision": "HEAD"
-    }
   }
 }
