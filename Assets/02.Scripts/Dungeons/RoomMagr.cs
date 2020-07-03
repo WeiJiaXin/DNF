@@ -3,16 +3,19 @@ using System.Collections.Generic;
 using Lowy.Event;
 using UnityEngine;
 
-public class RoomMagr : MonoBehaviour
+public class RoomMagr : MonoForDebug
 {
-    public static RoomMagr Current => DungeonsMagr.Instance.room;
-    
+    public static RoomMagr Current => DungeonsMagr.Instance ? DungeonsMagr.Instance.room : null;
+
     [SerializeField] private Transform doorUp;
     [SerializeField] private Transform doorDown;
     [SerializeField] private Transform doorLeft;
     [SerializeField] private Transform doorRight;
     [SerializeField] private Transform centerPoint;
     [SerializeField] private Transform monsterGeneratePoint;
+
+    public Rect Bord => _bord;
+    [SerializeField] private Rect _bord;
 
     private List<Transform> doors;
     public List<MonsterBase> monsters { get; private set; }
@@ -115,6 +118,21 @@ public class RoomMagr : MonoBehaviour
     private void OnMonsterDie(MonsterDieEve e)
     {
         monsters.Remove(e.monster);
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.blue;
+        var bord = Rect.zero;
+        bord.xMin = _bord.xMin - 5 * Screen.width / (float) Screen.height;
+        bord.xMax = _bord.xMax + 5 * Screen.width / (float) Screen.height;
+        bord.yMin = _bord.yMin - 5 * 1.414f;
+        bord.yMax = _bord.yMax + 5 * 1.414f;
+        Gizmos.DrawLine(new Vector3(bord.xMin,0, bord.yMin), new Vector3(bord.xMin, 0, bord.yMax));
+        Gizmos.DrawLine(new Vector3(bord.xMin,0, bord.yMin), new Vector3(bord.xMax, 0, bord.yMin));
+        Gizmos.DrawLine(new Vector3(bord.xMax,0, bord.yMax), new Vector3(bord.xMin, 0, bord.yMax));
+        Gizmos.DrawLine(new Vector3(bord.xMax,0, bord.yMax), new Vector3(bord.xMax, 0, bord.yMin));
+        Gizmos.color = Color.white;
     }
 }
 

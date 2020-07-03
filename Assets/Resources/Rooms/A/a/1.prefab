@@ -667,8 +667,12 @@ MonoBehaviour:
   doorRight: {fileID: 5318496728656453167}
   centerPoint: {fileID: 2186904033173994983}
   monsterGeneratePoint: {fileID: 6462269674685112809}
-  monsters: []
-  bosses: []
+  _bord:
+    serializedVersion: 2
+    x: -16
+    y: -22.624
+    width: 32
+    height: 45.248
 --- !u!1 &5391135023611313907
 GameObject:
   m_ObjectHideFlags: 0
