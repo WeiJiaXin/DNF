@@ -9,7 +9,7 @@ public class MonsterBase : RoleBase
         EventManager.Dispatch(new MonsterInitedEve {monster = this});
     }
 
-    protected override void FindEnemy()
+    public override void FindEnemy()
     {
         enemy = DungeonsMagr.Instance.player;
     }

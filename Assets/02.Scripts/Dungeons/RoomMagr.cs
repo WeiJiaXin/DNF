@@ -51,12 +51,12 @@ public class RoomMagr : MonoForDebug
     {
         if (info.killed)
             return;
-        int count = monsterGeneratePoint.childCount;
+        var cs = monsterGeneratePoint.GetComponentsInChildren<MonsterPointConfig>();
+        int count = cs.Length;
         for (int i = 0; i < count; i++)
         {
-            var point = monsterGeneratePoint.GetChild(i);
-            var monster = Resources.Load<MonsterBase>("Role/02.Monster/GasolineTank");
-            monster = Instantiate(monster, point);
+            var point = cs[i];
+            var monster = Instantiate(point.Monster, point.transform);
             monster.name = i.ToString();
             monster.InitData(new RoleData());
         }
@@ -124,8 +124,8 @@ public class RoomMagr : MonoForDebug
     {
         Gizmos.color = Color.blue;
         var bord = Rect.zero;
-        bord.xMin = _bord.xMin - 5 * Screen.width / (float) Screen.height;
-        bord.xMax = _bord.xMax + 5 * Screen.width / (float) Screen.height;
+        bord.xMin = _bord.xMin - 5 * 1920f / 1080f;
+        bord.xMax = _bord.xMax + 5 * 1920f / 1080f;
         bord.yMin = _bord.yMin - 5 * 1.414f;
         bord.yMax = _bord.yMax + 5 * 1.414f;
         Gizmos.DrawLine(new Vector3(bord.xMin,0, bord.yMin), new Vector3(bord.xMin, 0, bord.yMax));

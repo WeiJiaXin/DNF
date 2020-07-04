@@ -10,7 +10,7 @@ namespace CompleteProject
 
         private Rect bord;
 
-        void FixedUpdate ()
+        void LateUpdate ()
         {
             if (target == null)
             {
@@ -30,7 +30,7 @@ namespace CompleteProject
             targetCamPos += transform.forward * -50;
 
             // Smoothly interpolate between the camera's current position and it's target position.
-            transform.position = Vector3.Lerp (transform.position, targetCamPos, smoothing * Time.deltaTime);
+            transform.position = targetCamPos;
         }
     }
 }
