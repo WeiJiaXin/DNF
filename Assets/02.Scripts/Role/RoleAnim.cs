@@ -20,23 +20,23 @@ public class RoleAnim : MonoBehaviour
         _roleBase.Attack();
     }
 
-    public virtual void Moving()
-    {
-        _animator.SetInteger(State, 1);
-    }
-
-    public virtual void Idle()
-    {
-        _animator.SetInteger(State, 0);
-    }
-
-    public virtual void Die()
-    {
-        _animator.SetBool(Die1, true);
-    }
-
-    public virtual void Attack()
-    {
-        _animator.SetInteger(State, 2);
-    }
+    // public virtual void Moving()
+    // {
+    //     _animator.SetInteger(State, 1);
+    // }
+    //
+    // public virtual void Idle()
+    // {
+    //     _animator.SetInteger(State, 0);
+    // }
+    //
+    // public virtual void Die()
+    // {
+    //     _animator.SetBool(Die1, true);
+    // }
+    //
+    // public virtual void Attack()
+    // {
+    //     _animator.SetInteger(State, 2);
+    // }
 }

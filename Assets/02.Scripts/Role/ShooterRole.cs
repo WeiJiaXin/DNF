@@ -18,6 +18,6 @@ public class ShooterRole : RoleBase
         var b = _bulletPool.Pop(bulletPort);
         b.Init(true);
         var v = (Enemy.transform.position - bulletPort.position).normalized;
-        b.Launch(new BulletData {atk = _data.atk, useGravity = false, velocity = v});
+        b.Launch(this,new BulletData {atk = _data.atk, useGravity = false, velocity = v});
     }
 }

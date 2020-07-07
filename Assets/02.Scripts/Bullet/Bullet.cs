@@ -8,6 +8,17 @@ public class BulletData
     public int atk;
 }
 
+public struct InjuredData
+{
+    public RoleBase source;
+    public int atk;
+
+    public static InjuredData GetData(RoleBase s,BulletData d)
+    {
+        return new InjuredData() {source = s, atk = d.atk};
+    }
+}
+
 public class Bullet : MonoForDebug, IPoolObject
 {
     public string Name => $"Bullet/{nameof(Bullet)}";
@@ -16,6 +27,7 @@ public class Bullet : MonoForDebug, IPoolObject
     public float speed = 1;
     private Rigidbody _rig;
 
+    private RoleBase _source;
     private BulletData _data;
 
     private void Awake()
@@ -23,9 +35,10 @@ public class Bullet : MonoForDebug, IPoolObject
         _rig = GetComponent<Rigidbody>();
     }
 
-    public void Launch(BulletData data)
+    public void Launch(RoleBase source, BulletData data)
     {
-        _data = data; 
+        _source = source;
+        _data = data;
         _rig.velocity = _data.velocity * speed;
         _rig.useGravity = _data.useGravity;
     }
@@ -38,7 +51,7 @@ public class Bullet : MonoForDebug, IPoolObject
             return;
         if (bulletTrigger.CompareTag(tag))
             return;
-        bulletTrigger.role.GetHit(_data);
+        bulletTrigger.role.Injured(InjuredData.GetData(_source, _data));
         Recycle();
     }
 

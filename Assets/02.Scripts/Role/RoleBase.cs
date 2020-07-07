@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
+using GameTimer;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -16,6 +17,9 @@ public abstract class RoleBase : MonoBehaviour
 
     protected RoleBase firstEnemy;
     protected RoleBase enemy;
+
+    private TimeHandle injuredSourceTimer;//伤害源计时器
+    public RoleBase InjuredSource { get; set; }//如果受伤了,伤害源显示两秒
 
     public RoleAnim Anim => _anim;
     public RoleState State { get; set; }
@@ -54,8 +58,18 @@ public abstract class RoleBase : MonoBehaviour
     {
     }
 
-    public virtual void GetHit(BulletData data)
+    public virtual void Injured(InjuredData data)
     {
+        if (injuredSourceTimer == null)
+        {
+            injuredSourceTimer = Timer.Start(2);
+            injuredSourceTimer.onEnd += h =>
+            {
+                InjuredSource = null;
+                injuredSourceTimer = null;
+            };
+            InjuredSource = data.source;
+        }
     }
 
     public virtual void FindEnemy()
@@ -107,6 +121,5 @@ public abstract class RoleBase : MonoBehaviour
     public virtual void Die()
     {
         State = RoleState.Die;
-        _anim.Die();
     }
 }

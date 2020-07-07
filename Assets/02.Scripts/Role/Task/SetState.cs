@@ -3,9 +3,10 @@
 namespace _02.Scripts.Role.Task
 {
     [TaskCategory("Lowy")]
-    public class Idle : Action
+    public class SetState : Action
     {
         private RoleBase _role;
+        public RoleState toState;
 
         public override void OnAwake()
         {
@@ -14,8 +15,8 @@ namespace _02.Scripts.Role.Task
 
         public override TaskStatus OnUpdate()
         {
-            _role.State = RoleState.Idle;
-            return TaskStatus.Running;
+            _role.State = toState;
+            return TaskStatus.Success;
         }
     }
 }

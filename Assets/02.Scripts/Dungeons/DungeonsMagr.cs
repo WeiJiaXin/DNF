@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using _02.Scripts.Role.Variables;
+using BehaviorDesigner.Runtime;
 using UnityEngine;
 
 public class DungeonsMagr : MonoSingleton<DungeonsMagr>

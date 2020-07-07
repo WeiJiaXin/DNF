@@ -14,9 +14,6 @@ namespace _02.Scripts.Role.Task
 
         public override TaskStatus OnUpdate()
         {
-            if (_role.State != RoleState.Attack)
-                _role.Anim.Attack();
-            _role.State = RoleState.Attack;
             _role.RotationHandle();
             return TaskStatus.Running;
         }

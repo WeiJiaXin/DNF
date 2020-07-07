@@ -1,11 +1,13 @@
-﻿using BehaviorDesigner.Runtime.Tasks;
+﻿using BehaviorDesigner.Runtime;
+using BehaviorDesigner.Runtime.Tasks;
 
 namespace _02.Scripts.Role.Task
 {
     [TaskCategory("Lowy")]
-    public class IsMoving : Conditional
+    public class IsInjured : Conditional
     {
         private RoleBase _role;
+        public SharedVector3 injuredSourcePos;
 
         public override void OnAwake()
         {
@@ -14,13 +16,13 @@ namespace _02.Scripts.Role.Task
 
         public override TaskStatus OnUpdate()
         {
-            var axis = Joystick.Joystick.Axis;
-            if (axis.sqrMagnitude > 0)
+            if (_role.InjuredSource == null)
+                return TaskStatus.Failure;
+            else
             {
+                injuredSourcePos.Value = _role.InjuredSource.transform.position;
                 return TaskStatus.Success;
             }
-
-            return TaskStatus.Failure;
         }
     }
 }
