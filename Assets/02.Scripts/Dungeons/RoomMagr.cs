@@ -118,6 +118,13 @@ public class RoomMagr : MonoForDebug
     private void OnMonsterDie(MonsterDieEve e)
     {
         monsters.Remove(e.monster);
+        if (monsters.Count <= 0)
+            FinishRoom();
+    }
+
+    private void FinishRoom()
+    {
+        info.killed = true;
     }
 
     private void OnDrawGizmos()

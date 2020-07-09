@@ -1,9 +1,13 @@
-﻿using Lowy.Event;
+﻿using DG.Tweening;
+using GameTimer;
+using Lowy.Event;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class MonsterBase : RoleBase
 {
     protected MiniBloodBar bloodBar;
+
     protected override void Awake()
     {
         base.Awake();
@@ -31,5 +35,17 @@ public class MonsterBase : RoleBase
     {
         base.Die();
         EventManager.Dispatch(new MonsterDieEve {monster = this});
+
+        TimerStatic.Schedule(1, ClearBody);
+    }
+
+    protected virtual void ClearBody(TimeHandle obj)
+    {
+        BloodBarMagr.DestroyBar(this);
+        var navMeshAgent = GetComponent<NavMeshAgent>();
+        if (navMeshAgent)
+            navMeshAgent.enabled = false;
+        transform.DOMoveY(transform.position.y - head.localPosition.y, 0.5f).onComplete =
+            () => { Destroy(gameObject); };
     }
 }

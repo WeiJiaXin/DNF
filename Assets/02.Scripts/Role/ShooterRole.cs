@@ -14,6 +14,8 @@ public class ShooterRole : RoleBase
 
     public override void Attack()
     {
+        if(Enemy == null)
+            return;
         base.Attack();
         var b = _bulletPool.Pop(bulletPort);
         b.Init(true);

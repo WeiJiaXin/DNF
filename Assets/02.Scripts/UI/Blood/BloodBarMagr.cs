@@ -22,4 +22,19 @@ public class BloodBarMagr : MonoSingleton<BloodBarMagr>
         bar.SetRoleBase(role);
         return bar;
     }
+
+    public static void DestroyBar(RoleBase roleBase)
+    {
+        if (Instance == null)
+            return;
+        MiniBloodBar b = null;
+        if (Instance.bars.ContainsKey(roleBase))
+        {
+            b = Instance.bars[roleBase];
+            Instance.bars.Remove(roleBase);
+        }
+
+        if (b)
+            Destroy(b.gameObject);
+    }
 }

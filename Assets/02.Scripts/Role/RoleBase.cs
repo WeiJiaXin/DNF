@@ -75,10 +75,10 @@ public abstract class RoleBase : MonoBehaviour
         }
 
         _data.Hp -= data.atk;
-        if (_data.Hp<=0)
+        if (_data.Hp <= 0)
         {
             //die
-            State = RoleState.Die;
+            Die();
         }
     }
 
@@ -131,5 +131,10 @@ public abstract class RoleBase : MonoBehaviour
     public virtual void Die()
     {
         State = RoleState.Die;
+        var cs = GetComponentsInChildren<Collider>();
+        foreach (var c in cs)
+        {
+            c.enabled = false;
+        }
     }
 }
