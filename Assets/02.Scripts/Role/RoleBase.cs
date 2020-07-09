@@ -9,19 +9,22 @@ using UnityEngine.AI;
 public abstract class RoleBase : MonoBehaviour
 {
     [SerializeField] protected float speed;
-    [SerializeField] protected RoleAnim _anim;
-    [SerializeField, Range(0.01f, 0.1f)] protected float stopDistance = 0.01f;
+    [SerializeField] protected Transform head;
+    protected RoleAnim _anim;
     protected CharacterController cc;
 
     protected RoleData _data;
+    public RoleData Data => _data;
 
     protected RoleBase firstEnemy;
     protected RoleBase enemy;
 
-    private TimeHandle injuredSourceTimer;//伤害源计时器
-    public RoleBase InjuredSource { get; set; }//如果受伤了,伤害源显示两秒
+    private TimeHandle injuredSourceTimer; //伤害源计时器
+    public RoleBase InjuredSource { get; set; } //如果受伤了,伤害源显示两秒
 
     public RoleAnim Anim => _anim;
+    public Transform Head => head;
+    public CharacterController CC => cc;
     public RoleState State { get; set; }
 
     public RoleBase Enemy => firstEnemy ? firstEnemy : enemy;
@@ -69,6 +72,13 @@ public abstract class RoleBase : MonoBehaviour
                 injuredSourceTimer = null;
             };
             InjuredSource = data.source;
+        }
+
+        _data.Hp -= data.atk;
+        if (_data.Hp<=0)
+        {
+            //die
+            State = RoleState.Die;
         }
     }
 

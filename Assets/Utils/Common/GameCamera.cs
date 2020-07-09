@@ -37,10 +37,10 @@ public class GameCamera : MonoBehaviour
             false, false);
     }
 
-    public Vector2 WorldToUI(Transform tran)
+    public Vector2 WorldToUI(Vector3 pos)
     {
-        var point = (Vector2) mainCam.WorldToScreenPoint(tran.position) - new Vector2(Screen.width, Screen.height) * 0.5f;
-        point *= 1080f / Screen.width;
+        var point = (Vector2) mainCam.WorldToScreenPoint(pos) - new Vector2(Screen.width, Screen.height) * 0.5f;
+        point *= 1920f / Screen.width;
         return point;
     }
 }

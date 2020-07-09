@@ -3,9 +3,10 @@
 namespace _02.Scripts.Role.Task
 {
     [TaskCategory("Lowy")]
-    public class Idle : Action
+    public class IsInState : Conditional
     {
         private RoleBase _role;
+        public RoleState _state;
 
         public override void OnAwake()
         {
@@ -14,8 +15,7 @@ namespace _02.Scripts.Role.Task
 
         public override TaskStatus OnUpdate()
         {
-            _role.State = RoleState.Idle;
-            return TaskStatus.Running;
+            return _role.State == _state ? TaskStatus.Success : TaskStatus.Failure;
         }
     }
 }

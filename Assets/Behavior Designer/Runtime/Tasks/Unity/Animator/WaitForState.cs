@@ -26,7 +26,7 @@ namespace BehaviorDesigner.Runtime.Tasks.Unity.UnityAnimator
         {
             var currentGameObject = GetDefaultGameObject(targetGameObject.Value);
             if (currentGameObject != prevGameObject) {
-                animator = currentGameObject.GetComponent<Animator>();
+                animator = currentGameObject.GetComponentInChildren<Animator>();
                 prevGameObject = currentGameObject;
 
                 if (!animator.HasState(layer.Value, stateHash)) {
