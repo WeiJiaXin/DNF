@@ -7,17 +7,17 @@ public class RoomMagr : MonoForDebug
 {
     public static RoomMagr Current => DungeonsMagr.Instance ? DungeonsMagr.Instance.room : null;
 
-    [SerializeField] private Transform doorUp;
-    [SerializeField] private Transform doorDown;
-    [SerializeField] private Transform doorLeft;
-    [SerializeField] private Transform doorRight;
+    [SerializeField] private DungeonsRoomDoor doorUp;
+    [SerializeField] private DungeonsRoomDoor doorDown;
+    [SerializeField] private DungeonsRoomDoor doorLeft;
+    [SerializeField] private DungeonsRoomDoor doorRight;
     [SerializeField] private Transform centerPoint;
-    [SerializeField] private Transform monsterGeneratePoint;
+    [SerializeField] private Transform monsterGeneratePointParent;
 
     public Rect Bord => _bord;
     [SerializeField] private Rect _bord;
 
-    private List<Transform> doors;
+    private List<DungeonsRoomDoor> doors;
     public List<MonsterBase> monsters { get; private set; }
     public List<MonsterBase> bosses { get; private set; }
 
@@ -29,10 +29,10 @@ public class RoomMagr : MonoForDebug
         {
             switch (DungeonsMagr.Info.MoveDir)
             {
-                case EDirection.left: return doorRight.GetChild(0);
-                case EDirection.up: return doorDown.GetChild(0);
-                case EDirection.right: return doorLeft.GetChild(0);
-                case EDirection.down: return doorUp.GetChild(0);
+                case EDirection.left: return doorRight.GeneratePoint;
+                case EDirection.up: return doorDown.GeneratePoint;
+                case EDirection.right: return doorLeft.GeneratePoint;
+                case EDirection.down: return doorUp.GeneratePoint;
                 case EDirection.center: return centerPoint;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -51,7 +51,7 @@ public class RoomMagr : MonoForDebug
     {
         if (info.killed)
             return;
-        var cs = monsterGeneratePoint.GetComponentsInChildren<MonsterPointConfig>();
+        var cs = monsterGeneratePointParent.GetComponentsInChildren<MonsterPointConfig>();
         int count = cs.Length;
         for (int i = 0; i < count; i++)
         {
@@ -64,31 +64,31 @@ public class RoomMagr : MonoForDebug
 
     private void InitDoors()
     {
-        doors = new List<Transform>();
+        doors = new List<DungeonsRoomDoor>();
         var pos = info.Pos;
         if (!DungeonsMagr.Info.HasRoom(pos.x - 1, pos.y))
-            doorLeft.gameObject.SetActive(false);
+            doorLeft.Disable();
         else
             doors.Add(doorLeft);
         if (!DungeonsMagr.Info.HasRoom(pos.x + 1, pos.y))
-            doorRight.gameObject.SetActive(false);
+            doorRight.Disable();
         else
             doors.Add(doorRight);
         if (!DungeonsMagr.Info.HasRoom(pos.x, pos.y - 1))
-            doorDown.gameObject.SetActive(false);
+            doorDown.Disable();
         else
             doors.Add(doorDown);
         if (!DungeonsMagr.Info.HasRoom(pos.x, pos.y + 1))
-            doorUp.gameObject.SetActive(false);
+            doorUp.Disable();
         else
             doors.Add(doorUp);
         //
-        if (info.killed)
+        foreach (var door in doors)
         {
-            foreach (var door in doors)
-            {
-                // door.open
-            }
+            if (info.killed)
+                door.Open();
+            else
+                door.Close();
         }
     }
 
@@ -125,6 +125,11 @@ public class RoomMagr : MonoForDebug
     private void FinishRoom()
     {
         info.killed = true;
+
+        foreach (var door in doors)
+        {
+            door.Open();
+        }
     }
 
     private void OnDrawGizmos()
@@ -135,10 +140,10 @@ public class RoomMagr : MonoForDebug
         bord.xMax = _bord.xMax + 5 * 1920f / 1080f;
         bord.yMin = _bord.yMin - 5 * 1.414f;
         bord.yMax = _bord.yMax + 5 * 1.414f;
-        Gizmos.DrawLine(new Vector3(bord.xMin,0, bord.yMin), new Vector3(bord.xMin, 0, bord.yMax));
-        Gizmos.DrawLine(new Vector3(bord.xMin,0, bord.yMin), new Vector3(bord.xMax, 0, bord.yMin));
-        Gizmos.DrawLine(new Vector3(bord.xMax,0, bord.yMax), new Vector3(bord.xMin, 0, bord.yMax));
-        Gizmos.DrawLine(new Vector3(bord.xMax,0, bord.yMax), new Vector3(bord.xMax, 0, bord.yMin));
+        Gizmos.DrawLine(new Vector3(bord.xMin, 0, bord.yMin), new Vector3(bord.xMin, 0, bord.yMax));
+        Gizmos.DrawLine(new Vector3(bord.xMin, 0, bord.yMin), new Vector3(bord.xMax, 0, bord.yMin));
+        Gizmos.DrawLine(new Vector3(bord.xMax, 0, bord.yMax), new Vector3(bord.xMin, 0, bord.yMax));
+        Gizmos.DrawLine(new Vector3(bord.xMax, 0, bord.yMax), new Vector3(bord.xMax, 0, bord.yMin));
         Gizmos.color = Color.white;
     }
 }
