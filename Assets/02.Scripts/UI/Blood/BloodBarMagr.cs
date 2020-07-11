@@ -34,7 +34,18 @@ public class BloodBarMagr : MonoSingleton<BloodBarMagr>
             Instance.bars.Remove(roleBase);
         }
 
-        if (b)
+        if (b != null)
             Destroy(b.gameObject);
+    }
+
+    public static void DestroyAllBar()
+    {
+        if (Instance == null)
+            return;
+        foreach (var kv in Instance.bars)
+        {
+            if (kv.Value != null)
+                Destroy(kv.Value.gameObject);
+        }
     }
 }

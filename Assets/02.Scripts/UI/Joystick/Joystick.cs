@@ -30,15 +30,20 @@ namespace _02.Scripts.Joystick
 
         public void OnPointerDown(PointerEventData eventData)
         {
-            joystick.anchoredPosition = eventData.position;
+            var pos = eventData.position;
+            pos *= 1920f / Screen.width;
+            joystick.anchoredPosition = pos;
             center.anchoredPosition = Vector2.zero;
 
-            startPos = eventData.position;
+            startPos = pos;
         }
 
         public void OnDrag(PointerEventData eventData)
         {
-            var delay = eventData.position - startPos;
+            var pos = eventData.position;
+            pos *= 1920f / Screen.width;
+            
+            var delay = pos - startPos;
             if (delay.sqrMagnitude > maxLength * maxLength)
                 center.anchoredPosition = delay.normalized * maxLength;
             else

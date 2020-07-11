@@ -13,6 +13,7 @@ public class DungeonsInfo
         set
         {
             lastX = _x;
+            lastY = _y;
             _x = value;
         }
     }
@@ -23,6 +24,7 @@ public class DungeonsInfo
         get => _y;
         set
         {
+            lastX = _x;
             lastY = _y;
             _y = value;
         }
@@ -54,5 +56,13 @@ public class DungeonsInfo
         if (y < 0 || y >= rooms.GetLength(1))
             return false;
         return rooms[x, y] != null;
+    }
+
+    public void InitPos(int x, int y)
+    {
+        _x = x;
+        _y = y;
+        lastX = -1;
+        lastY = -1;
     }
 }

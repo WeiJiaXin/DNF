@@ -63,7 +63,7 @@ public class Bullet : MonoForDebug, IPoolObject
 
     public void Init(bool isPlayer)
     {
-        gameObject.tag = isPlayer ? "Player" : "Monster";
+        gameObject.tag = isPlayer ? "BulletPlayer" : "BulletMonster";
         var tran = transform;
         tran.localPosition=Vector3.zero;
         tran.localEulerAngles=Vector3.zero;
