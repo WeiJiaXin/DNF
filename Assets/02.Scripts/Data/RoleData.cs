@@ -23,7 +23,7 @@ public class RoleData
             {RoleDataEnum.maxHp, 100},
             {RoleDataEnum.mp, 100},
             {RoleDataEnum.maxMp, 100},
-            {RoleDataEnum.atk, 10},
+            {RoleDataEnum.atk, 100},
             {RoleDataEnum.def, 0}
         };
     }

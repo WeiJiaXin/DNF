@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using _02.Scripts.UI.MiniMap;
 using Lowy.Event;
 using UnityEngine;
 
@@ -65,20 +66,20 @@ public class RoomMagr : MonoForDebug
     private void InitDoors()
     {
         doors = new List<DungeonsRoomDoor>();
-        var pos = info.Pos;
-        if (!DungeonsMagr.Info.HasRoom(pos.x - 1, pos.y))
+        var dir = DungeonsMagr.Info.DoorsByRoom(info);
+        if (!dir.HasFlag(EDirection.left))
             doorLeft.Disable();
         else
             doors.Add(doorLeft);
-        if (!DungeonsMagr.Info.HasRoom(pos.x + 1, pos.y))
+        if (!dir.HasFlag(EDirection.right))
             doorRight.Disable();
         else
             doors.Add(doorRight);
-        if (!DungeonsMagr.Info.HasRoom(pos.x, pos.y - 1))
+        if (!dir.HasFlag(EDirection.down))
             doorDown.Disable();
         else
             doors.Add(doorDown);
-        if (!DungeonsMagr.Info.HasRoom(pos.x, pos.y + 1))
+        if (!dir.HasFlag(EDirection.up))
             doorUp.Disable();
         else
             doors.Add(doorUp);
@@ -130,6 +131,8 @@ public class RoomMagr : MonoForDebug
         {
             door.Open();
         }
+        
+        MiniMapMagr.Instance.DisplayUnknownRoomIco();
     }
 
     private void OnDrawGizmos()
@@ -151,6 +154,7 @@ public class RoomMagr : MonoForDebug
 [Flags]
 public enum EDirection
 {
+    none = 0,
     left = 1,
     up = 2,
     right = 4,

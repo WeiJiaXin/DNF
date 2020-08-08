@@ -12,6 +12,8 @@ public abstract class RoleBase : MonoBehaviour
     [SerializeField] protected Transform head;
     protected RoleAnim _anim;
     protected CharacterController cc;
+    protected NavMeshAgent _agent;
+    protected CapsuleCollider _ccollider;
 
     protected RoleData _data;
     public RoleData Data => _data;
@@ -25,6 +27,19 @@ public abstract class RoleBase : MonoBehaviour
     public RoleAnim Anim => _anim;
     public Transform Head => head;
     public CharacterController CC => cc;
+
+    public float height
+    {
+        get
+        {
+            if (cc != null)
+                return cc.height;
+            if (_agent != null)
+                return _agent.height;
+            return _ccollider.height;
+        }
+    }
+
     public RoleState State { get; set; }
 
     public RoleBase Enemy => firstEnemy ? firstEnemy : enemy;
@@ -32,6 +47,9 @@ public abstract class RoleBase : MonoBehaviour
     protected virtual void Awake()
     {
         cc = GetComponent<CharacterController>();
+        _agent = GetComponent<NavMeshAgent>();
+        _ccollider = GetComponent<CapsuleCollider>();
+        //
         _anim = GetComponentInChildren<RoleAnim>();
     }
 
@@ -110,6 +128,9 @@ public abstract class RoleBase : MonoBehaviour
         {
             var dir = cc.velocity;
             dir.y = 0;
+            if (dir.sqrMagnitude <= 0.001f)
+                return;
+            transform.DOKill();
             transform.DOLookAt(transform.position + dir, 0.2f).onComplete = () =>
             {
                 dir.y = transform.position.y;
@@ -120,6 +141,9 @@ public abstract class RoleBase : MonoBehaviour
         {
             var dir = Enemy.transform.position - transform.position;
             dir.y = 0;
+            if (dir.sqrMagnitude <= 0.001f)
+                return;
+            transform.DOKill();
             transform.DOLookAt(transform.position + dir, 0.2f).onComplete = () =>
             {
                 dir.y = transform.position.y;
